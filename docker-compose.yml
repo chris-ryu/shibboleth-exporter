@@ -1,0 +1,10 @@
+services:
+  shibboleth-exporter:
+    build: .
+    ports:
+      - "9090:9090"
+    environment:
+      - PORT=9090
+      - METRICS_ENDPOINT=https://shibboleth-idp/idp/profile/admin/metrics
+    restart: unless-stopped
+
