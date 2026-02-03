@@ -1,0 +1,53 @@
+modules:
+  # HTTP 2xx 응답 확인
+  http_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      method: GET
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true
+
+  # HTTP 2xx with SSL 인증서 정보 수집
+  http_2xx_ssl:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      method: GET
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+      fail_if_ssl: false
+      fail_if_not_ssl: true
+      tls_config:
+        insecure_skip_verify: false
+
+  # TCP 연결 확인
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"
+
+  # ICMP ping
+  icmp:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+
+  # HTTP POST 요청
+  http_post:
+    prober: http
+    timeout: 10s
+    http:
+      method: POST
+      valid_status_codes: [200, 201, 204]
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true

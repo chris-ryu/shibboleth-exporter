@@ -5,6 +5,7 @@ services:
       - "9090:9090"
     environment:
       - PORT=9090
-      - METRICS_ENDPOINT=https://shibboleth-idp/idp/profile/admin/metrics
+      # METRICS_ENDPOINT is optional - for legacy /metrics endpoint
+      # Use /probe?target=<url> for multi-target mode (recommended)
     restart: unless-stopped
 

@@ -4,32 +4,52 @@ A Prometheus exporter for Shibboleth IdP metrics that converts JSON metrics from
 
 ## Features
 
-- Collects memory statistics
-- Monitors system information
-- Tracks version information for Shibboleth IdP and OpenSAML
-- Monitors metadata refresh timestamps
-- Tracks authentication statistics
+- Collects comprehensive memory statistics
+- Monitors system information (CPU cores, OS, Java version)
+- Tracks IdP lifecycle (startup time, uptime)
+- Monitors service reload status for 10 core services
+- Tracks federation metadata (refresh, expiration, errors)
+- Dynamically collects authentication metrics (all methods, successes/failures)
 - Handles SSL verification for secure endpoints
 
 ## Metrics Exported
 
-- **Memory Metrics**
-  - shibboleth_memory_free_bytes
-  - shibboleth_memory_max_bytes
-  - shibboleth_memory_used_bytes
-  - shibboleth_memory_usage_ratio
+### Memory Metrics (gauge)
+- `shibboleth_memory_free_bytes` - Free memory in bytes
+- `shibboleth_memory_max_bytes` - Maximum memory limit
+- `shibboleth_memory_used_bytes` - Currently used memory
+- `shibboleth_memory_usage_ratio` - Memory usage ratio (0-1)
 
-- **System Metrics**
-  - shibboleth_cores_available
+### System Information (gauge)
+- `shibboleth_cores_available` - Number of available CPU cores
+- `shibboleth_info` - Info metric with labels:
+  - `version` - IdP version
+  - `opensaml_version` - OpenSAML version
+  - `os_name`, `os_version`, `os_arch` - Operating system details
+  - `java_version`, `java_vendor` - Java runtime information
 
-- **Version Information**
-  - shibboleth_version_info (with version and opensaml_version labels)
+### IdP Lifecycle (gauge)
+- `shibboleth_idp_start_timestamp` - IdP startup time (Unix epoch)
+- `shibboleth_idp_uptime_seconds` - Total uptime in seconds
 
-- **Metadata Information**
-  - shibboleth_metadata_refresh_timestamp (with federation labels)
+### Service Reload Status (gauge, per service)
+Services monitored: LoggingService, AttributeFilterService, AttributeResolverService, AttributeRegistryService, NameIdentifierGenerationService, RelyingPartyResolverService, MetadataResolverService, AccessControlService, CASServiceRegistry, ManagedBeanService
 
-- **Authentication Statistics**
-  - shibboleth_authentication_password_successes
+- `shibboleth_service_last_reload_attempt_timestamp` - Last reload attempt time
+- `shibboleth_service_last_successful_reload_timestamp` - Last successful reload time
+- `shibboleth_service_reload_success` - Boolean (1=success, 0=failure)
+
+### Metadata Information (gauge, per federation)
+- `shibboleth_metadata_last_refresh_timestamp` - Last refresh attempt
+- `shibboleth_metadata_last_successful_refresh_timestamp` - Last successful refresh
+- `shibboleth_metadata_last_update_timestamp` - Last actual update
+- `shibboleth_metadata_valid_until_timestamp` - Metadata expiration time
+- `shibboleth_metadata_has_error` - Error flag (1=has error, 0=no error)
+
+### Authentication Statistics (counter)
+- `shibboleth_authentication_total` - Authentication events with labels:
+  - `method` - Authentication method (e.g., "ValidateUsernamePasswordAgainstRest")
+  - `result` - "successes" or "failures"
 
 ## Requirements
 

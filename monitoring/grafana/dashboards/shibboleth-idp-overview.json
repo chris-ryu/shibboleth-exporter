@@ -1,0 +1,380 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": ["school"],
+      "targetBlank": true,
+      "title": "학교별 상세",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "panels": [],
+      "title": "📊 전체 IdP 현황 요약",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
+      "id": 1,
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "전체 IdP 수",
+      "type": "stat",
+      "targets": [{ "expr": "count(up{job=\"shibboleth-idp\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
+      "id": 2,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "정상 IdP",
+      "type": "stat",
+      "targets": [{ "expr": "count(up{job=\"shibboleth-idp\"} == 1)", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
+      "id": 3,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "장애 IdP",
+      "type": "stat",
+      "targets": [{ "expr": "count(up{job=\"shibboleth-idp\"} == 0) or vector(0)", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
+      "id": 4,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "총 인증 성공",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{result=\"successes\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 100 }, { "color": "red", "value": 500 }] },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
+      "id": 5,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "총 인증 실패",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{result=\"failures\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 3 }] },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
+      "id": 6,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "메타데이터 에러",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_metadata_has_error == 1) or vector(0)", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "panels": [],
+      "title": "🏫 학교별 IdP 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "학교" }, "properties": [{ "id": "custom.width", "value": 150 }, { "id": "links", "value": [{ "title": "상세 보기", "url": "/d/shibboleth-idp-school?var-instance=${__data.fields.instance}&${__url_time_range}" }] }] },
+          { "matcher": { "id": "byName", "options": "IdP 상태" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "red", "index": 1, "text": "DOWN" }, "1": { "color": "green", "index": 0, "text": "UP" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "HTTP 상태" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "red", "index": 1, "text": "DOWN" }, "1": { "color": "green", "index": 0, "text": "UP" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "메모리 사용률" }, "properties": [{ "id": "unit", "value": "percentunit" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 0.7 }, { "color": "red", "value": 0.85 }] } }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "SSL 만료까지" }, "properties": [{ "id": "unit", "value": "dtdurations" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 604800 }, { "color": "green", "value": 2592000 }] } }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "가동시간" }, "properties": [{ "id": "unit", "value": "dtdurations" }] },
+          { "matcher": { "id": "byName", "options": "인증 성공" }, "properties": [{ "id": "unit", "value": "short" }] },
+          { "matcher": { "id": "byName", "options": "인증 실패" }, "properties": [{ "id": "unit", "value": "short" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 100 }, { "color": "red", "value": 500 }] } }] },
+          { "matcher": { "id": "byName", "options": "버전" }, "properties": [{ "id": "custom.width", "value": 80 }] },
+          { "matcher": { "id": "byName", "options": "instance" }, "properties": [{ "id": "custom.hidden", "value": true }] }
+        ]
+      },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 6 },
+      "id": 10,
+      "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [{ "desc": false, "displayName": "학교" }] },
+      "title": "전체 IdP 현황",
+      "type": "table",
+      "targets": [
+        { "expr": "up{job=\"shibboleth-idp\"}", "format": "table", "instant": true, "refId": "A" },
+        { "expr": "shibboleth_memory_usage_ratio", "format": "table", "instant": true, "refId": "B" },
+        { "expr": "shibboleth_idp_uptime_seconds", "format": "table", "instant": true, "refId": "C" },
+        { "expr": "sum by (instance, school) (shibboleth_authentication_total{result=\"successes\"})", "format": "table", "instant": true, "refId": "D" },
+        { "expr": "sum by (instance, school) (shibboleth_authentication_total{result=\"failures\"})", "format": "table", "instant": true, "refId": "E" },
+        { "expr": "shibboleth_info", "format": "table", "instant": true, "refId": "F" },
+        { "expr": "probe_ssl_earliest_cert_expiry - time()", "format": "table", "instant": true, "refId": "G" }
+      ],
+      "transformations": [
+        { "id": "seriesToColumns", "options": { "byField": "instance" } },
+        { "id": "organize", "options": { "excludeByName": { "Time 1": true, "Time 2": true, "Time 3": true, "Time 4": true, "Time 5": true, "Time 6": true, "Time 7": true, "__name__ 1": true, "__name__ 2": true, "__name__ 3": true, "__name__ 4": true, "__name__ 5": true, "__name__ 6": true, "__name__ 7": true, "java_vendor": true, "java_version": true, "job 1": true, "job 2": true, "job 3": true, "job 4": true, "job 5": true, "job 6": true, "job 7": true, "opensaml_version": true, "os_arch": true, "os_name": true, "os_version": true, "result 1": true, "result 2": true, "school 1": true, "school 2": true, "school 3": true, "school 4": true, "school 5": true, "school 6": true, "school 7": true, "service": true, "target": true }, "indexByName": { "Value #A": 2, "Value #B": 4, "Value #C": 5, "Value #D": 6, "Value #E": 7, "Value #F": 9, "Value #G": 8, "instance": 0, "school 1": 1, "version": 3 }, "renameByName": { "Value #A": "IdP 상태", "Value #B": "메모리 사용률", "Value #C": "가동시간", "Value #D": "인증 성공", "Value #E": "인증 실패", "Value #F": "", "Value #G": "SSL 만료까지", "school 1": "학교", "version": "버전" } } }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "id": 102,
+      "panels": [],
+      "title": "📈 인증 통계 추이",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "id": 20,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean"], "displayMode": "table", "placement": "right", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "학교별 인증 성공 추이 (분당)",
+      "type": "timeseries",
+      "targets": [{ "expr": "sum by (school) (rate(shibboleth_authentication_total{result=\"successes\"}[5m]) * 60)", "legendFormat": "{{school}}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "id": 21,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean"], "displayMode": "table", "placement": "right", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "학교별 인증 실패 추이 (분당)",
+      "type": "timeseries",
+      "targets": [{ "expr": "sum by (school) (rate(shibboleth_authentication_total{result=\"failures\"}[5m]) * 60)", "legendFormat": "{{school}}", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 25 },
+      "id": 103,
+      "panels": [],
+      "title": "💾 메모리 사용 현황",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 30, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "line" } },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 0.7 }, { "color": "red", "value": 0.85 }] },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 26 },
+      "id": 30,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "right", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "학교별 메모리 사용률",
+      "type": "timeseries",
+      "targets": [{ "expr": "shibboleth_memory_usage_ratio", "legendFormat": "{{school}}", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 34 },
+      "id": 104,
+      "panels": [],
+      "title": "🔒 SSL 인증서 현황",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "학교" }, "properties": [{ "id": "custom.width", "value": 150 }] },
+          { "matcher": { "id": "byName", "options": "만료까지" }, "properties": [{ "id": "unit", "value": "dtdurations" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 604800 }, { "color": "green", "value": 2592000 }] } }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "만료일" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] },
+          { "matcher": { "id": "byName", "options": "상태" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "red", "index": 1, "text": "만료/에러" }, "1": { "color": "green", "index": 0, "text": "정상" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 35 },
+      "id": 40,
+      "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [{ "desc": false, "displayName": "만료까지" }] },
+      "title": "SSL 인증서 만료 현황",
+      "type": "table",
+      "targets": [
+        { "expr": "probe_ssl_earliest_cert_expiry * 1000", "format": "table", "instant": true, "refId": "A" },
+        { "expr": "probe_ssl_earliest_cert_expiry - time()", "format": "table", "instant": true, "refId": "B" },
+        { "expr": "(probe_ssl_earliest_cert_expiry - time()) > 0", "format": "table", "instant": true, "refId": "C" }
+      ],
+      "transformations": [
+        { "id": "seriesToColumns", "options": { "byField": "instance" } },
+        { "id": "organize", "options": { "excludeByName": { "Time 1": true, "Time 2": true, "Time 3": true, "__name__ 1": true, "__name__ 2": true, "__name__ 3": true, "job 1": true, "job 2": true, "job 3": true, "target 1": true, "target 2": true, "target 3": true }, "indexByName": {}, "renameByName": { "Value #A": "만료일", "Value #B": "만료까지", "Value #C": "상태", "school 1": "학교" } } }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 43 },
+      "id": 105,
+      "panels": [],
+      "title": "⚠️ 메타데이터 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "학교" }, "properties": [{ "id": "custom.width", "value": 150 }] },
+          { "matcher": { "id": "byName", "options": "Federation" }, "properties": [{ "id": "custom.width", "value": 180 }] },
+          { "matcher": { "id": "byName", "options": "만료까지" }, "properties": [{ "id": "unit", "value": "dtdurations" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 604800 }, { "color": "green", "value": 2592000 }] } }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "에러" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "green", "index": 0, "text": "정상" }, "1": { "color": "red", "index": 1, "text": "에러" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "마지막 갱신" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] },
+          { "matcher": { "id": "byName", "options": "만료일" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] }
+        ]
+      },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 44 },
+      "id": 50,
+      "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [{ "desc": false, "displayName": "만료까지" }] },
+      "title": "전체 메타데이터 Federation 현황",
+      "type": "table",
+      "targets": [
+        { "expr": "shibboleth_metadata_last_refresh_timestamp * 1000", "format": "table", "instant": true, "refId": "A" },
+        { "expr": "shibboleth_metadata_valid_until_timestamp * 1000", "format": "table", "instant": true, "refId": "B" },
+        { "expr": "shibboleth_metadata_valid_until_timestamp - time()", "format": "table", "instant": true, "refId": "C" },
+        { "expr": "shibboleth_metadata_has_error", "format": "table", "instant": true, "refId": "D" }
+      ],
+      "transformations": [
+        { "id": "seriesToColumns", "options": { "byField": "federation" } },
+        { "id": "organize", "options": { "excludeByName": { "Time 1": true, "Time 2": true, "Time 3": true, "Time 4": true, "__name__ 1": true, "__name__ 2": true, "__name__ 3": true, "__name__ 4": true, "job 1": true, "job 2": true, "job 3": true, "job 4": true }, "indexByName": {}, "renameByName": { "Value #A": "마지막 갱신", "Value #B": "만료일", "Value #C": "만료까지", "Value #D": "에러", "federation": "Federation", "instance 1": "학교", "school 1": "학교명" } } }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["shibboleth", "idp", "overview"],
+  "templating": {
+    "list": [
+      {
+        "current": { "selected": false, "text": "Prometheus", "value": "prometheus" },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "Asia/Seoul",
+  "title": "Shibboleth IdP - 통합 현황",
+  "uid": "shibboleth-idp-overview",
+  "version": 1,
+  "weekStart": ""
+}

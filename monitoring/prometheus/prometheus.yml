@@ -1,0 +1,121 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Shibboleth IdP Metrics Exporter (Multi-target pattern like blackbox_exporter)
+  - job_name: 'shibboleth-idp'
+    metrics_path: /probe
+    static_configs:
+      - targets:
+          - https://kijeon.jst.ac.kr/idp/profile/admin/metrics
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+          region: 'jeonbuk'
+      # Additional schools can be added here:
+      # - targets:
+      #     - https://school2.example.com/idp/profile/admin/metrics
+      #   labels:
+      #     instance: 'school2'
+      #     school: '학교명2'
+      #     region: 'region2'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: target
+      - target_label: __address__
+        replacement: shibboleth-exporter:9090
+
+  # Node Exporter - System metrics
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+
+  # Blackbox Exporter - HTTP probes
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - https://kijeon.jst.ac.kr/idp/status
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+          service: 'idp-status'
+      - targets:
+          - https://kijeon.jst.ac.kr/idp/profile/admin/metrics
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+          service: 'idp-metrics'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: target
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Blackbox Exporter - SSL Certificate monitoring
+  - job_name: 'blackbox-ssl'
+    metrics_path: /probe
+    params:
+      module: [http_2xx_ssl]
+    static_configs:
+      - targets:
+          - https://kijeon.jst.ac.kr
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: target
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Blackbox Exporter - TCP port checks
+  - job_name: 'blackbox-tcp'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+          - kijeon.jst.ac.kr:443
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+          service: 'https'
+      - targets:
+          - kijeon.jst.ac.kr:80
+        labels:
+          instance: 'kijeon'
+          school: '기전대학교'
+          service: 'http'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: target
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

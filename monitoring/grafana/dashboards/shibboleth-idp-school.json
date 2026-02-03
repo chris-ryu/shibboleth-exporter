@@ -1,0 +1,426 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "panels": [],
+      "title": "📊 IdP 서비스 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "index": 1, "text": "DOWN" }, "1": { "color": "green", "index": 0, "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
+      "id": 1,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "IdP 상태",
+      "type": "stat",
+      "targets": [{ "expr": "up{job=\"shibboleth-idp\", instance=\"$instance\"}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "index": 1, "text": "DOWN" }, "1": { "color": "green", "index": 0, "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
+      "id": 2,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "HTTP 상태",
+      "type": "stat",
+      "targets": [{ "expr": "probe_success{job=\"blackbox-http\", instance=\"$instance\"}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "s",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 2592000 }, { "color": "orange", "value": 604800 }, { "color": "red", "value": 259200 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
+      "id": 3,
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "SSL 인증서 만료",
+      "type": "stat",
+      "targets": [{ "expr": "probe_ssl_earliest_cert_expiry{instance=\"$instance\"} - time()", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "dtdurations",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
+      "id": 4,
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "IdP 가동시간",
+      "type": "stat",
+      "targets": [{ "expr": "shibboleth_idp_uptime_seconds{instance=\"$instance\"}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
+      "id": 5,
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "IdP 버전",
+      "type": "stat",
+      "targets": [{ "expr": "shibboleth_info{instance=\"$instance\"}", "legendFormat": "{{version}}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
+      "id": 6,
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "CPU 코어",
+      "type": "stat",
+      "targets": [{ "expr": "shibboleth_cores_available{instance=\"$instance\"}", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "panels": [],
+      "title": "💾 메모리 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "max": 1,
+          "min": 0,
+          "unit": "percentunit",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 0.7 }, { "color": "red", "value": 0.85 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 6 },
+      "id": 10,
+      "options": { "minVizHeight": 75, "minVizWidth": 75, "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "sizing": "auto" },
+      "title": "메모리 사용률",
+      "type": "gauge",
+      "targets": [{ "expr": "shibboleth_memory_usage_ratio{instance=\"$instance\"}", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 30, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 6 },
+      "id": 11,
+      "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "right", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "메모리 사용량",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "shibboleth_memory_used_bytes{instance=\"$instance\"}", "legendFormat": "사용중", "refId": "A" },
+        { "expr": "shibboleth_memory_free_bytes{instance=\"$instance\"}", "legendFormat": "여유", "refId": "B" },
+        { "expr": "shibboleth_memory_max_bytes{instance=\"$instance\"}", "legendFormat": "최대", "refId": "C" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 12 },
+      "id": 102,
+      "panels": [],
+      "title": "🔐 인증 통계",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 13 },
+      "id": 20,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "총 인증 성공",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{instance=\"$instance\", result=\"successes\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 100 }, { "color": "red", "value": 500 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 13 },
+      "id": 21,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "총 인증 실패",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{instance=\"$instance\", result=\"failures\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "smooth", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 13 },
+      "id": 22,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean"], "displayMode": "table", "placement": "right", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "인증 시도 추이",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(shibboleth_authentication_total{instance=\"$instance\", result=\"successes\"}[5m]) * 60", "legendFormat": "성공/분", "refId": "A" },
+        { "expr": "rate(shibboleth_authentication_total{instance=\"$instance\", result=\"failures\"}[5m]) * 60", "legendFormat": "실패/분", "refId": "B" }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "max": 1,
+          "min": 0,
+          "unit": "percentunit",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 0.05 }, { "color": "red", "value": 0.1 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 17 },
+      "id": 23,
+      "options": { "colorMode": "background", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "인증 실패율",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{instance=\"$instance\", result=\"failures\"}) / sum(shibboleth_authentication_total{instance=\"$instance\"})", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "unit": "percentunit",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 0.9 }, { "color": "green", "value": 0.95 }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 17 },
+      "id": 24,
+      "options": { "colorMode": "background", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
+      "title": "인증 성공률",
+      "type": "stat",
+      "targets": [{ "expr": "sum(shibboleth_authentication_total{instance=\"$instance\", result=\"successes\"}) / sum(shibboleth_authentication_total{instance=\"$instance\"})", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 },
+      "id": 103,
+      "panels": [],
+      "title": "📋 메타데이터 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "Federation" }, "properties": [{ "id": "custom.width", "value": 200 }] },
+          { "matcher": { "id": "byName", "options": "만료까지" }, "properties": [{ "id": "unit", "value": "dtdurations" }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 604800 }, { "color": "green", "value": 2592000 }] } }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "에러" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "green", "index": 0, "text": "정상" }, "1": { "color": "red", "index": 1, "text": "에러" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "마지막 갱신" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] },
+          { "matcher": { "id": "byName", "options": "만료일" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 22 },
+      "id": 30,
+      "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [] },
+      "title": "메타데이터 Federation 상태",
+      "type": "table",
+      "targets": [
+        { "expr": "shibboleth_metadata_last_refresh_timestamp{instance=\"$instance\"} * 1000", "format": "table", "instant": true, "legendFormat": "__auto", "refId": "A" },
+        { "expr": "shibboleth_metadata_valid_until_timestamp{instance=\"$instance\"} * 1000", "format": "table", "instant": true, "legendFormat": "__auto", "refId": "B" },
+        { "expr": "(shibboleth_metadata_valid_until_timestamp{instance=\"$instance\"} - time())", "format": "table", "instant": true, "legendFormat": "__auto", "refId": "C" },
+        { "expr": "shibboleth_metadata_has_error{instance=\"$instance\"}", "format": "table", "instant": true, "legendFormat": "__auto", "refId": "D" }
+      ],
+      "transformations": [
+        { "id": "seriesToColumns", "options": { "byField": "federation" } },
+        { "id": "organize", "options": { "excludeByName": { "Time 1": true, "Time 2": true, "Time 3": true, "Time 4": true, "__name__ 1": true, "__name__ 2": true, "__name__ 3": true, "__name__ 4": true, "instance 1": true, "instance 2": true, "instance 3": true, "instance 4": true, "job 1": true, "job 2": true, "job 3": true, "job 4": true }, "indexByName": {}, "renameByName": { "Value #A": "마지막 갱신", "Value #B": "만료일", "Value #C": "만료까지", "Value #D": "에러", "federation": "Federation" } } }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
+      "id": 104,
+      "panels": [],
+      "title": "🔄 서비스 리로드 상태",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "서비스" }, "properties": [{ "id": "custom.width", "value": 280 }] },
+          { "matcher": { "id": "byName", "options": "상태" }, "properties": [{ "id": "mappings", "value": [{ "options": { "0": { "color": "red", "index": 1, "text": "실패" }, "1": { "color": "green", "index": 0, "text": "성공" } }, "type": "value" }] }, { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }] },
+          { "matcher": { "id": "byName", "options": "마지막 시도" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] },
+          { "matcher": { "id": "byName", "options": "마지막 성공" }, "properties": [{ "id": "unit", "value": "dateTimeAsIso" }] }
+        ]
+      },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 31 },
+      "id": 40,
+      "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [] },
+      "title": "서비스 리로드 현황",
+      "type": "table",
+      "targets": [
+        { "expr": "shibboleth_service_last_reload_attempt_timestamp{instance=\"$instance\"} * 1000", "format": "table", "instant": true, "refId": "A" },
+        { "expr": "shibboleth_service_last_successful_reload_timestamp{instance=\"$instance\"} * 1000", "format": "table", "instant": true, "refId": "B" },
+        { "expr": "shibboleth_service_reload_success{instance=\"$instance\"}", "format": "table", "instant": true, "refId": "C" }
+      ],
+      "transformations": [
+        { "id": "seriesToColumns", "options": { "byField": "service" } },
+        { "id": "organize", "options": { "excludeByName": { "Time 1": true, "Time 2": true, "Time 3": true, "__name__ 1": true, "__name__ 2": true, "__name__ 3": true, "instance 1": true, "instance 2": true, "instance 3": true, "job 1": true, "job 2": true, "job 3": true }, "indexByName": {}, "renameByName": { "Value #A": "마지막 시도", "Value #B": "마지막 성공", "Value #C": "상태", "service": "서비스" } } }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["shibboleth", "idp", "school"],
+  "templating": {
+    "list": [
+      {
+        "current": { "selected": false, "text": "Prometheus", "value": "prometheus" },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
+        "definition": "label_values(up{job=\"shibboleth-idp\"}, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "학교",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": { "qryType": 1, "query": "label_values(up{job=\"shibboleth-idp\"}, instance)", "refId": "PrometheusVariableQueryEditor-VariableQuery" },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
+        "definition": "label_values(up{job=\"shibboleth-idp\", instance=\"$instance\"}, school)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "학교명",
+        "multi": false,
+        "name": "school",
+        "options": [],
+        "query": { "qryType": 1, "query": "label_values(up{job=\"shibboleth-idp\", instance=\"$instance\"}, school)", "refId": "PrometheusVariableQueryEditor-VariableQuery" },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "Asia/Seoul",
+  "title": "Shibboleth IdP - 학교별 상세",
+  "uid": "shibboleth-idp-school",
+  "version": 1,
+  "weekStart": ""
+}
